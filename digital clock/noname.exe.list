@@ -1,0 +1,214 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+noname.exe -- emu8086 assembler version: 4.08  
+ 
+[ 5/12/2026  --  8:25:34 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .model small
+[   2]        :                                       .stack 200h
+[   3]        :                                       
+[   4]        :                                       .data
+[   5]    0200: 20 20 2B 3D 3D 3D 3D 3D 3D 3D 3D 3D   top_border  db '  +==============================+', 13, 10, '$'
+                3D 3D 3D 3D 3D 3D 3D 3D 3D 3D 3D 3D 
+                3D 3D 3D 3D 3D 3D 3D 3D 3D 2B 0D 0A 
+                24                                  
+[   6]    0225: 20 20 7C 20 20 20 20 20 20 20 20 20   empty_line  db '  |                              |', 13, 10, '$'
+                20 20 20 20 20 20 20 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 20 7C 0D 0A 
+                24                                  
+[   7]    024A: 20 20 7C 20 20 44 61 74 65 3A 20 30   date_line   db '  |  Date: 00/00/0000            |', 13, 10, '$'
+                30 2F 30 30 2F 30 30 30 30 20 20 20 
+                20 20 20 20 20 20 20 20 20 7C 0D 0A 
+                24                                  
+[   8]    026F: 20 20 7C 20 20 2D 2D 2D 2D 2D 2D 2D   sep_line    db '  |  ----------------------------  |', 13, 10, '$'
+                2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 
+                2D 2D 2D 2D 2D 2D 2D 2D 2D 20 20 7C 
+                0D 0A 24                            
+[   9]    0296: 20 20 7C 20 20 54 69 6D 65 3A 20 30   time_line   db '  |  Time: 00:00:00              |', 13, 10, '$'
+                30 3A 30 30 3A 30 30 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 20 7C 0D 0A 
+                24                                  
+[  10]    02BB: 20 20 2B 3D 3D 3D 3D 3D 3D 3D 3D 3D   bot_border  db '  +==============================+$'
+                3D 3D 3D 3D 3D 3D 3D 3D 3D 3D 3D 3D 
+                3D 3D 3D 3D 3D 3D 3D 3D 3D 2B 24    
+[  11]        :                                       
+[  12]        :                                       .code
+[  13]    02E0:                                       main proc
+[  14]    02E0: B8 20 00                              mov ax, @data
+[  15]    02E3: 8E D8                                 mov ds, ax
+[  16]        :                                       
+[  17]    02E5: B4 06                                 mov ah, 06h
+[  18]    02E7: B0 00                                 mov al, 00h
+[  19]    02E9: B7 1E                                 mov bh, 1Eh
+[  20]    02EB: B9 00 00                              mov cx, 0000h
+[  21]    02EE: BA 4F 18                              mov dx, 184Fh
+[  22]    02F1: CD 10                                 int 10h
+[  23]        :                                       
+[  24]    02F3:                                       main_loop:
+[  25]        :                                       
+[  26]        :                                       ; DATE
+[  27]    02F3: B4 2A                                 mov ah, 2Ah
+[  28]    02F5: CD 21                                 int 21h
+[  29]        :                                       
+[  30]    02F7: 8A C2                                 mov al, dl
+[  31]    02F9: E8 BF 00                              call bta
+[  32]    02FC: A2 52 00                              mov [date_line+8], al
+[  33]    02FF: 88 26 53 00                           mov [date_line+9], ah
+[  34]        :                                       
+[  35]    0303: 8A C6                                 mov al, dh
+[  36]    0305: E8 B3 00                              call bta
+[  37]    0308: A2 55 00                              mov [date_line+11], al
+[  38]    030B: 88 26 56 00                           mov [date_line+12], ah
+[  39]        :                                       
+[  40]    030F: 8B C1                                 mov ax, cx
+[  41]    0311: BA 00 00                              mov dx, 0
+[  42]    0314: BB E8 03                              mov bx, 1000
+[  43]    0317: F7 F3                                 div bx
+[  44]    0319: 04 30                                 add al, '0'
+[  45]    031B: A2 58 00                              mov [date_line+14], al
+[  46]        :                                       
+[  47]    031E: 8B C2                                 mov ax, dx
+[  48]    0320: BA 00 00                              mov dx, 0
+[  49]    0323: BB 64 00                              mov bx, 100
+[  50]    0326: F7 F3                                 div bx
+[  51]    0328: 04 30                                 add al, '0'
+[  52]    032A: A2 59 00                              mov [date_line+15], al
+[  53]        :                                       
+[  54]    032D: 8B C2                                 mov ax, dx
+[  55]    032F: BA 00 00                              mov dx, 0
+[  56]    0332: BB 0A 00                              mov bx, 10
+[  57]    0335: F7 F3                                 div bx
+[  58]    0337: 04 30                                 add al, '0'
+[  59]    0339: A2 5A 00                              mov [date_line+16], al
+[  60]    033C: 80 C2 30                              add dl, '0'
+[  61]    033F: 88 16 5B 00                           mov [date_line+17], dl
+[  62]        :                                       
+[  63]        :                                       ; TIME
+[  64]    0343: B4 2C                                 mov ah, 2Ch
+[  65]    0345: CD 21                                 int 21h
+[  66]        :                                       
+[  67]    0347: 8A C5                                 mov al, ch
+[  68]    0349: E8 6F 00                              call bta
+[  69]    034C: A2 9E 00                              mov [time_line+8], al
+[  70]    034F: 88 26 9F 00                           mov [time_line+9], ah
+[  71]        :                                       
+[  72]    0353: 8A C1                                 mov al, cl
+[  73]    0355: E8 63 00                              call bta
+[  74]    0358: A2 A1 00                              mov [time_line+11], al
+[  75]    035B: 88 26 A2 00                           mov [time_line+12], ah
+[  76]        :                                       
+[  77]    035F: 8A C6                                 mov al, dh
+[  78]    0361: E8 57 00                              call bta
+[  79]    0364: A2 A4 00                              mov [time_line+14], al
+[  80]    0367: 88 26 A5 00                           mov [time_line+15], ah
+[  81]        :                                       
+[  82]        :                                       ; DRAW
+[  83]    036B: B4 02                                 mov ah, 02h
+[  84]    036D: B7 00                                 mov bh, 00h
+[  85]    036F: B6 07                                 mov dh, 07h
+[  86]    0371: B2 00                                 mov dl, 00h
+[  87]    0373: CD 10                                 int 10h
+[  88]        :                                       
+[  89]    0375: B4 09                                 mov ah, 09h
+[  90]    0377: BA 00 00                              lea dx, top_border
+[  91]    037A: CD 21                                 int 21h
+[  92]        :                                       
+[  93]    037C: BA 25 00                              lea dx, empty_line
+[  94]    037F: CD 21                                 int 21h
+[  95]        :                                       
+[  96]    0381: BA 25 00                              lea dx, empty_line
+[  97]    0384: CD 21                                 int 21h
+[  98]        :                                       
+[  99]    0386: BA 4A 00                              lea dx, date_line
+[ 100]    0389: CD 21                                 int 21h
+[ 101]        :                                       
+[ 102]    038B: BA 25 00                              lea dx, empty_line
+[ 103]    038E: CD 21                                 int 21h
+[ 104]        :                                       
+[ 105]    0390: BA 6F 00                              lea dx, sep_line
+[ 106]    0393: CD 21                                 int 21h
+[ 107]        :                                       
+[ 108]    0395: BA 25 00                              lea dx, empty_line
+[ 109]    0398: CD 21                                 int 21h
+[ 110]        :                                       
+[ 111]    039A: BA 96 00                              lea dx, time_line
+[ 112]    039D: CD 21                                 int 21h
+[ 113]        :                                       
+[ 114]    039F: BA 25 00                              lea dx, empty_line
+[ 115]    03A2: CD 21                                 int 21h
+[ 116]        :                                       
+[ 117]    03A4: BA 25 00                              lea dx, empty_line
+[ 118]    03A7: CD 21                                 int 21h
+[ 119]        :                                       
+[ 120]    03A9: BA BB 00                              lea dx, bot_border
+[ 121]    03AC: CD 21                                 int 21h
+[ 122]        :                                       
+[ 123]    03AE: B4 86                                 mov ah, 86h
+[ 124]    03B0: B9 0F 00                              mov cx, 000Fh
+[ 125]    03B3: BA 40 42                              mov dx, 4240h
+[ 126]    03B6: CD 15                                 int 15h
+[ 127]        :                                       
+[ 128]    03B8: E9 38 FF                              jmp main_loop
+[ 129]        :                                       
+[ 130]        :                                       main endp
+[ 131]        :                                       
+[ 132]    03BB:                                       bta proc
+[ 133]    03BB: B4 00                                 mov ah, 0
+[ 134]    03BD: B3 0A                                 mov bl, 10
+[ 135]    03BF: F6 F3                                 div bl
+[ 136]    03C1: 04 30                                 add al, '0'
+[ 137]    03C3: 80 C4 30                              add ah, '0'
+[ 138]    03C6: C3                                    ret
+[ 139]        :                                       bta endp
+[ 140]        :                                       
+[ 141]        :                                       end main
+[ 142]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: C7      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 02      -   SP - stack pointer (h.byte)
+0012: 55      -   check sum (l.byte)
+0013: 35      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 2E      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 2E      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================
